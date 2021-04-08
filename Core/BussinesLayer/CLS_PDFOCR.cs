@@ -120,15 +120,9 @@ namespace TestCore.BussinesLayer
         {
             try
             {
-
+                //Format the headers
                 var PatternRegex = new Regex(FormatTextPattern(Group.Key) + @"[^\]]", RegexOptions.Multiline);
-                var structureGroup = StructureJSON[Group.Key][0];
-
-                //Format the header
-                if (structureGroup["Type"].ToString() == "Table")
-                    Text = PatternRegex.Replace(Text, $"\n[{Group.Key}]", 1, StartIndex);
-                else
-                    Text = PatternRegex.Replace(Text, $"\n[{Group.Key}]", 1, StartIndex);                
+                Text = PatternRegex.Replace(Text, $"\n[{Group.Key}]", 1, StartIndex);                
 
                 //Get the started index of the group
                 int NewIndex = Text.IndexOf(Group.Key, StartIndex);
@@ -136,56 +130,53 @@ namespace TestCore.BussinesLayer
 
                 if (NewIndex < 0) { return Text; }
 
+                var structureGroup = StructureJSON[Group.Key][0];
+
                 //Si es de tipo tabla identificamos el inicio de las filas para poder guardarlas para procesar después
                 //If it is of type table we identify the beginning of the rows to be able to save them to process later
-                if (Group.Key == "DETALLE DE MOVIMIENTOS (PESOS)")
-                {
-                    PatternRegex = new Regex(@"^[0-9]{2}\b-\b[a-zA-Z]{3}\b-\b[0-9]{2}", RegexOptions.Multiline);
-                    MatchCollection coincidencias = PatternRegex.Matches(Text, StartIndex);
+                if (structureGroup["Type"].ToString() == "Table") {
 
-                    var startAt = 0;
-                    foreach (Match item in coincidencias)
+                    Newtonsoft.Json.Linq.JObject StructureJSONTable = Newtonsoft.Json.Linq.JObject.Parse(structureGroup["Fields"].ToString());
+                    string[] FieldsTable = StructureJSONTable.Properties().Select(p => p.Name).ToArray();
+
+                    foreach (string Field in FieldsTable)
                     {
-                        Text = PatternRegex.Replace(Text, $"\nREGISTRO={item.Value}", 1, item.Index + startAt);
-                        startAt = item.Length;
+                        Newtonsoft.Json.Linq.JObject FieldProperties = Newtonsoft.Json.Linq.JObject.Parse(StructureJSONTable[Field].ToString());
+                  
+                        //buscamos los registros de las tablas que inicien con la expresión indicada
+                        PatternRegex = new Regex(FieldProperties["pattern"].ToString(), RegexOptions.Multiline);
+                        MatchCollection coincidencias = PatternRegex.Matches(Text, StartIndex);
+
+                        if (coincidencias != null && coincidencias.Count > 0)
+                        {
+                            //1.- IDENTIFICAR LOS REGISTROS
+                            //agregamos en texto REGISTRO para indicar que es una fila de la tabla
+                            var startAt = 0;
+                            foreach (Match item in coincidencias)
+                            {
+                                Text = PatternRegex.Replace(Text, $"\n{Field}={item.Value}", 1, item.Index + startAt);
+                                startAt = item.Length;
+                            }
+
+                            //2.- BUSCAMOS LAS FILAS MARCADAS Y LAS VOLVEMOS A DIVIDIR
+                            Regex PatternRegex_Split = new Regex($"{Field}=", RegexOptions.Multiline | RegexOptions.Compiled);
+                            string[] rows_split = PatternRegex_Split.Split(Text);
+
+                            //3.- MARCAMOS NUEVAMENTE LOS REGISTRO Y ELIMINAMOS LOS SALTOS DE LINEA PARA AGRUPAR CADA REGISTRO
+                            for (int i = 0; i < rows_split.Length - 1; i++)
+                            {
+                                PatternRegex = new Regex(FieldProperties["pattern"].ToString(), RegexOptions.Multiline);
+
+                                if (PatternRegex.IsMatch(rows_split[i]))
+                                    rows_split[i] = $"{Field}={rows_split[i].Replace("\r\n", " ").Replace("\n", "")}";
+                            }
+
+                            //UNIMOS EL CONTENIDO
+                            Text = string.Join("\n", rows_split);
+                        }
                     }
 
-                    if (coincidencias != null && coincidencias.Count > 0)
-                    {
-                        //([0-9]{2}\b-\b[a-zA-Z]{3}\b-\b[0-9]{2})((.+)(\s+))(([0-9]+?)(,[0-9])*[0-9]+\.[0-9]{2})[^\r\n]
-                        ///([0-9]{2}\b-\b[a-zA-Z]{3}\b-\b[0-9]{2})((.+)(\s+))(([0-9]+?)(,[0-9])*[0-9]+\.[0-9]{2}[\\])/gU
-                        ///REGISTRO=(.+)(\n+)*(\r+)*(([0-9]+?)(,[0-9])*[0-9]+\.[0-9]{2})+[\\]
-                        // @"REGISTRO=(.+)(([0-9]+?)(,[0-9])*[0-9]+\.[0-9]{2})[\\r\\n?](.+)"
-                        //PatternRegex = new Regex(@"REGISTRO=(.+)([^$]\s\d+?,\d*\d+\.{1}\d{2})", RegexOptions.Multiline | RegexOptions.Compiled);
-                        //MatchCollection rows = PatternRegex.Matches(Text);
-
-                        Regex  PatternRegex_Split = new Regex(@"REGISTRO=", RegexOptions.Multiline| RegexOptions.Compiled);
-                        string[] rows_split = PatternRegex_Split.Split(Text);
-                        //var rows_split = Regex.Split(Text, @"REGISTRO=");
-
-                        for (int i = 0; i < rows_split.Length - 1; i++)
-                        {
-                            PatternRegex = new Regex(@"^[0-9]{2}\b-\b[a-zA-Z]{3}\b-\b[0-9]{2}", RegexOptions.Multiline);
-
-                            if (PatternRegex.IsMatch(rows_split[i]))
-                                rows_split[i] = $"REGISTRO={rows_split[i].Replace("\r\n", " ").Replace("\n", "")}";
-
-                        }
-
-                        Text = string.Join("\n", rows_split);
-                        Console.WriteLine();
-                        /*
-                        startAt = 0;
-                        foreach (Match row in rows)
-                        {
-                            var text_ = row.Value;
-                            Console.WriteLine(row.Value);
-                            //Text = PatternRegex.Replace(Text, row.Value.Replace("\r\n", "_"), 1, row.Index + startAt);
-                            startAt = row.Length;
-                        }
-
-                         Console.WriteLine();*/
-                    }
+                    
 
                 }
                 else
