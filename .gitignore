@@ -1,0 +1,9 @@
+/Test/obj/*
+/Test/bin/*
+/TestCore/bin/*
+/TestCore/obj/*
+/Test/tessdata
+/packages
+/.vs
+/Core/bin/*
+/Core/obj/*
