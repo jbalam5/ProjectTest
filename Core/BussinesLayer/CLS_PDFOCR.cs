@@ -97,6 +97,7 @@ namespace TestCore.BussinesLayer
                     documentProcessor.LoadDocument(filePath);
                     documentText = documentProcessor.Text;
                 }
+                //NASA.PROCNASA.BusinessLayer.CLS_FileAccess.WriteTextFile("TextPDF.txt", documentText.ToString().Replace(Environment.NewLine, "\n"));
                 return documentText;//.Replace("\r", "_").Replace("\n", "\n");
             }
             catch (Exception ex)

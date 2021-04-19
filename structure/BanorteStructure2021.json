@@ -1,0 +1,140 @@
+{
+    "SUCURSAL:": [
+        {"Type": "Value"}
+    ],
+    "TIPO DE ENVÍO": [{"Type": "Value"}],
+    "NO. DE CLIENTE": [{"Type": "Value"}],
+    "RFC:": [{"Type": "Value"}],
+    "DATOS DE SUCURSAL": [{"Type": "Value"}],
+    "PLAZA": [{"Type": "Value"}],
+    "DIRECCIÓN ": [{"Type": "Value"}],
+    "TELÉFONO": [{"Type": "Value"}],
+    "INFORMACIÓN DEL PERIODO": [{"Type": "Value"}],
+    "RESUMEN INTEGRAL": [{
+        "Type": "Value",
+        "Fields": [
+            "ENLACE GLOBAL PM S/INTERESES"
+        ]
+    }],
+    "Resumen del periodo": [{
+        "Type": "Value",
+        "Fields": [
+        "Saldo inicial del periodo",
+        "+ Total de depósitos",
+        "+ Total de depósitos",
+        "- Total de retiros",
+        "+ Intereses Netos Ganados",
+        "- Total de comisiones Cobradas / Pagadas",
+        "- IVA sobre comisiones (16%)",
+        "- Intereses Cobrados / Pagados",
+        "Saldo actual",
+        "Saldo disponible al día*"
+        ]
+    }],
+    "Saldo Promedio": [{
+        "Type": "Value",
+        "Fields": [
+        "Saldo promedio mínimo",
+        "En el Periodo",
+        "Días que comprende el periodo"
+        ]
+    }],
+    "Intereses devengados": [{
+        "Type": "Value",
+        "Fields": [
+            "Tasa Bruta Anual",
+            "Interés Tasa Bruta Anual",
+            "Retención de ISR",
+            "INTERESES NETOS GANADOS"
+        ]
+    }],
+    "Saldo no disponible al día": [{
+        "Type": "Value",
+        "Fields": [
+            "Saldo no disponible al día",
+            "Ret. Garantía Líquida",
+            "Comisiones pendientes de aplicar",
+            "Compras no aplicadas"
+        ]
+    }],
+    "Resumen de comisiones": [{
+        "Type": "Value",
+        "Fields": [
+            "Cheques girados",
+            "Cheques girados sin comisión",
+            "Cheques girados con comisión",
+            "Importe de la comisión",
+            "Por cheques devueltos",
+            "Otras comisiones"
+        ]
+    }],
+    "ENLACE GLOBAL PM S/INTERESES": [{
+        "Type": "Value",
+        "Fields": [
+            "Saldo inicial de ",
+            "DEPÓSITOS",
+            "RETIROS",
+            "COMISIONES",
+            "OTROS CARGOS",
+            "SALDO FINAL"
+        ]
+    }],
+    "DETALLE DE MOVIMIENTOS (PESOS)": [{
+        "Type": "Table",
+        "Fields": {
+            "Registro": {
+                "Type": "string", 
+                "PatternStart": "^[0-9]{2}\\b-\\b[a-zA-Z]{3}\\b-\\b[0-9]{2}", 
+                "PatternEnd": "(\\d+)(,\\d+)*(\\d+)(\\.)(\\d{2}\\|)"
+            }
+        },
+        "Exclude": "(CONTINUACIÓN)▼Enlace Global Pm S/Intereses|FECHA DESCRIPCIÓN / ESTABLECIMIENTO MONTO DEL DEPOSITO MONTO DEL RETIRO SALDO|FECHA DESCRIPCIÓN / ESTABLECIMIENTO MONTO DEL DEPOSITO MONTO DEL RETIRO SALDO|ESTADO DE CUENTA / \\n[ENLACE GLOBAL PM S/INTERESES]|DETALLE DE MOVIMIENTOS (PESOS) (CONTINUACIÓN)▼Enlace Global Pm S/Intereses FECHA DESCRIPCIÓN"
+    }],
+    "INVERSION ENLACE NEGOCIOS": [{
+        "Type": "Table",
+        "Fields": {
+            "Registro": {
+                "Type": "string"
+            }
+        }
+    }],
+    "Informe de Depósitos en efectivo (IDE) mayores a $15,000 pesos": [{
+        "Type": "Value",
+        "Fields": [
+            "Mes",
+            "Excedentes de depósitos",
+            "Tipo de Cambio",
+            "Resumen por cliente del ejercicio",
+            "Monto de excedente de depósitos"
+        ]
+    }],
+    "Ganancia Anual Total (GAT)": [{
+        "Type": "Value",
+        "Fields": [
+            "NO. DE CUENTA",
+            "GAT NOMINAL 1",
+            "GAT REAL2",
+            "(+) INTERESES APLICABLES",
+            "(-) TOTAL DE COMISIONES"
+        ]
+    }],
+    "COMPROBANTE FISCAL DIGITAL":[{
+        "Type": "Value",
+        "Fields": [
+            "Folio Fiscal:",
+            "No de Serie del Certificado del SAT:",
+            "No de Serie del Certificado del Emisor:",
+            "Fecha y hora de certificación:",
+            "Lugar y fecha de elaboración:",
+            "Forma de pago:",
+            "Sello Digital del CFDI:",
+            "Cadena original del complemento de certificación:",
+            "Versión CFDI:",
+            "Importe Total:",
+            "Unidad de Medida:",
+            "Método de Pago:",
+            "Lugar de Expedición:",
+            "Régimen Fiscal:"
+        ]
+    }]
+}
