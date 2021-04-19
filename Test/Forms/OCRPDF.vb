@@ -3,8 +3,15 @@
         ''Dim PDFOcr As New TestCore.BussinesLayer.CLS_PDF()
         ''PDFOcr.ReadTextPDF("D:\NASA_DOCS\Modulo Fiscal\Estados de Cuenta Ejemplos\EC PDF y Movimientos Qualtia Ene-Feb 2021\ECMensual - Qualtia Ene-Feb 2021\012021BNT0222189952A03.PDF")
 
+        Dim path As String = "D:\NASA_DOCS\Modulo Fiscal\Estados de Cuenta Ejemplos\EC PDF y Movimientos Qualtia Ene-Feb 2021\ECMensual - Qualtia Ene-Feb 2021\012021BNT0617198747A03.PDF"
+
+        Dim OCRPDF As New TestCore.BussinesLayer.CLS_OCRPDF()
+        ''OCRPDF.GetTextIronOCR(path)
+
         Dim ocr As New TestCore.BussinesLayer.CLS_PDFOCR()
-        Dim TextPDF As String = ocr.Load("D:\NASA_DOCS\Modulo Fiscal\Estados de Cuenta Ejemplos\EC PDF y Movimientos Qualtia Ene-Feb 2021\ECMensual - Qualtia Ene-Feb 2021\012021BNT0222189952A03.PDF")
+
+        Dim TextPDF As String = ocr.Load(path)
+
 
         Dim JSON = ocr.TextToJSON(TextPDF)
         ResultadoTextBox.Text = TextPDF

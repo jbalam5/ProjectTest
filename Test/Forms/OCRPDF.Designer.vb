@@ -36,7 +36,7 @@ Partial Class OCRPDF
         Me.JSONTreeView.Dock = System.Windows.Forms.DockStyle.Left
         Me.JSONTreeView.Location = New System.Drawing.Point(0, 0)
         Me.JSONTreeView.Name = "JSONTreeView"
-        Me.JSONTreeView.Size = New System.Drawing.Size(526, 555)
+        Me.JSONTreeView.Size = New System.Drawing.Size(663, 555)
         Me.JSONTreeView.TabIndex = 0
         '
         'ResultadoTextBox
@@ -46,7 +46,7 @@ Partial Class OCRPDF
         Me.ResultadoTextBox.Multiline = True
         Me.ResultadoTextBox.Name = "ResultadoTextBox"
         Me.ResultadoTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.ResultadoTextBox.Size = New System.Drawing.Size(497, 555)
+        Me.ResultadoTextBox.Size = New System.Drawing.Size(360, 555)
         Me.ResultadoTextBox.TabIndex = 1
         '
         'OpenFileButton
@@ -73,9 +73,9 @@ Partial Class OCRPDF
         '
         Me.Panel2.Controls.Add(Me.ResultadoTextBox)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(526, 0)
+        Me.Panel2.Location = New System.Drawing.Point(663, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(497, 555)
+        Me.Panel2.Size = New System.Drawing.Size(360, 555)
         Me.Panel2.TabIndex = 2
         '
         'OCRPDF
